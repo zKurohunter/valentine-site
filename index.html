@@ -6,18 +6,29 @@
   <!-- 💖💖💖 Page Title 💖💖💖 -->
   <title>💖 Lillmeeko, Will You Be My Valentine? 💕 💖</title>
   <style>
+    /* Body & container */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
       text-align: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      background: #ffd6e0; /* light pink background */
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
       color: #fff;
     }
     .container {
+      position: relative;
+      z-index: 2; /* above hearts */
       margin-top: 10vh;
     }
-    h1 { font-size: 3rem; }
+
+    /* Titles */
+    h1 { font-size: 3rem; z-index: 2; position: relative; }
+    h2 { font-size: 2rem; z-index: 2; position: relative; }
+
+    /* Buttons */
     .btn {
       padding: 15px 30px;
       font-size: 1.2rem;
@@ -26,33 +37,67 @@
       border-radius: 8px;
       cursor: pointer;
       transition: 0.3s;
+      z-index: 2;
+      position: relative;
     }
     .yes-btn { background: #ff416c; }
     .no-btn { background: #ffd700; position: relative; }
+
+    /* Fireworks */
     #fireworks {
       display: none;
       font-size: 5rem;
       margin-top: 40px;
+      z-index: 2;
+      position: relative;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      color: #ff4d6d;
+      animation: floatUp linear infinite;
+      opacity: 0.8;
+    }
+
+    /* Heart animation */
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.8;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
 
   <!-- 💖💖💖 Main page title 💖💖💖 -->
-  <h1 id="pageTitle">💖 Hey there! Kuro has a question for you... 💌 💖</h1>
+  <h1 id="pageTitle">💖 Valentine’s Surprise 💌 💖</h1>
 
   <!-- Question + buttons -->
   <div class="container">
-    <h2 id="question">💖 Lillmeeko, Will You Be My Valentine? 💕</h2>
+    <h2 id="question">Will You Be My Valentine? 💕</h2>
     <button class="btn yes-btn" id="yesBtn">Yes 💖</button>
     <button class="btn no-btn" id="noBtn">No 😢</button>
     <div id="fireworks">🎆🎉💘</div>
   </div>
 
+  <!-- Hearts container -->
+  <div id="hearts"></div>
+
 <script>
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
   const question = document.querySelector("h1");
+  const heartsContainer = document.getElementById("hearts");
 
   const messages = [
     "Are you suuuure? 😈",
@@ -68,33 +113,26 @@
   let yesScale = 1;
 
   function moveButton() {
-    // change message
     question.textContent = messages[Math.min(count, messages.length - 1)];
     count++;
 
-    // shake the question
+    // shake animation
     question.classList.remove("shake");
-    void question.offsetWidth; // restart animation
+    void question.offsetWidth;
     question.classList.add("shake");
 
-    // shrink NO
     noScale = Math.max(0.4, noScale - 0.1);
     noBtn.style.transform = `scale(${noScale})`;
 
-    // grow YES
     yesScale = Math.min(1.6, yesScale + 0.1);
     yesBtn.style.transform = `scale(${yesScale})`;
 
-    // move NO safely
     const rect = noBtn.getBoundingClientRect();
     const margin = 16;
-
     const vw = document.documentElement.clientWidth;
     const vh = document.documentElement.clientHeight;
-
     const maxX = vw - rect.width - margin;
     const maxY = vh - rect.height - margin;
-
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
 
@@ -110,6 +148,25 @@
     question.textContent = "YAYYY 💖🥰";
     document.getElementById("fireworks").style.display = "block";
   });
+
+  // Create floating hearts
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 24 + 12 + "px";
+    heart.style.animationDuration = Math.random() * 5 + 5 + "s";
+    heartsContainer.appendChild(heart);
+
+    // Remove heart after animation
+    setTimeout(() => {
+      heart.remove();
+    }, (parseFloat(heart.style.animationDuration) * 1000));
+  }
+
+  // Generate hearts continuously
+  setInterval(createHeart, 300);
 </script>
 
 </body>
