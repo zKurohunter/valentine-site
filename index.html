@@ -6,7 +6,6 @@
   <!-- 💖💖💖 Page Title 💖💖💖 -->
   <title>💖 Lillmeeko, Will You Be My Valentine? 💕 💖</title>
   <style>
-    /* Body & container */
     body {
       margin: 0;
       padding: 0;
@@ -23,12 +22,8 @@
       z-index: 2;
       margin-top: 10vh;
     }
-
-    /* Titles */
     h1 { font-size: 3rem; z-index: 2; position: relative; }
     h2 { font-size: 2rem; z-index: 2; position: relative; }
-
-    /* Buttons */
     .btn {
       padding: 15px 30px;
       font-size: 1.2rem;
@@ -42,8 +37,6 @@
     }
     .yes-btn { background: #ff416c; }
     .no-btn { background: #ffd700; position: relative; }
-
-    /* Fireworks */
     #fireworks {
       display: none;
       font-size: 5rem;
@@ -51,8 +44,6 @@
       z-index: 2;
       position: relative;
     }
-
-    /* Floating hearts */
     .heart {
       position: absolute;
       font-size: 1.5rem;
@@ -62,30 +53,29 @@
       animation-timing-function: linear;
       animation-iteration-count: infinite;
     }
-
-    /* Heart animation keyframes */
     @keyframes float {
-      0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-        opacity: 0.8;
-      }
-      50% {
-        transform: translate(var(--x-mid), var(--y-mid)) scale(1.2) rotate(180deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--x-end), var(--y-end)) scale(1) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.8; }
+      50% { transform: translate(var(--x-mid), var(--y-mid)) scale(1.2) rotate(180deg); opacity: 1; }
+      100% { transform: translate(var(--x-end), var(--y-end)) scale(1) rotate(360deg); opacity: 0; }
+    }
+
+    /* Footer text */
+    #footerText {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+      color: #fff;
+      z-index: 2;
+      font-family: Arial, sans-serif;
     }
   </style>
 </head>
 <body>
 
-  <!-- 💖💖💖 Main page title 💖💖💖 -->
   <h1 id="pageTitle">💖 Hey there! Kuro has a question for you... 💌 💖</h1>
 
-  <!-- Question + buttons -->
   <div class="container">
     <h2 id="question">💖 Lillmeeko, Will You Be My Valentine? 💕</h2>
     <button class="btn yes-btn" id="yesBtn">Yes 💖</button>
@@ -95,6 +85,9 @@
 
   <!-- Hearts container -->
   <div id="hearts"></div>
+
+  <!-- Footer text -->
+  <div id="footerText">kidding….. unless</div>
 
 <script>
   const noBtn = document.getElementById("noBtn");
@@ -151,14 +144,13 @@
     document.getElementById("fireworks").style.display = "block";
   });
 
-  // Create floating hearts with random movement
   function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
     heart.textContent = "💖";
 
     const startX = Math.random() * window.innerWidth;
-    const endX = startX + (Math.random() * 200 - 100); // drift left/right
+    const endX = startX + (Math.random() * 200 - 100);
     const midX = (startX + endX) / 2;
     const startY = window.innerHeight + 50;
     const endY = -50;
@@ -167,24 +159,20 @@
     heart.style.left = startX + "px";
     heart.style.top = startY + "px";
 
-    // Custom properties for keyframes
     heart.style.setProperty('--x-mid', `${midX - startX}px`);
     heart.style.setProperty('--y-mid', `${-midY}px`);
     heart.style.setProperty('--x-end', `${endX - startX}px`);
     heart.style.setProperty('--y-end', `${endY - startY}px`);
 
-    // Random size & speed
     heart.style.fontSize = Math.random() * 24 + 12 + "px";
-    const duration = Math.random() * 5 + 5; // 5-10 seconds
+    const duration = Math.random() * 5 + 5;
     heart.style.animationDuration = duration + "s";
 
     heartsContainer.appendChild(heart);
 
-    // Remove after animation
     setTimeout(() => heart.remove(), duration * 1000);
   }
 
-  // Continuously spawn hearts
   setInterval(createHeart, 200);
 </script>
 
