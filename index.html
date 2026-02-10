@@ -46,10 +46,19 @@
 
 <script>
   const noBtn = document.getElementById("noBtn");
+
   noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    const padding = 20;
+
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
   });
 
   document.getElementById("yesBtn").addEventListener("click", () => {
@@ -57,6 +66,7 @@
     alert("Yay! 💕 They said YES!");
   });
 </script>
+
 
 </body>
 </html>
