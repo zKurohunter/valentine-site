@@ -46,26 +46,50 @@
 
 <script>
   const noBtn = document.getElementById("noBtn");
+  const question = document.querySelector("h1");
 
-  noBtn.addEventListener("mouseover", () => {
-    const padding = 20;
+  const messages = [
+    "Are you suuuure? 😈",
+    "Like… REALLY sure? 🥺",
+    "This is getting awkward 😅",
+    "I thought we had something 💔",
+    "Last chance 😤",
+    "Okay now you're just being mean 😭"
+  ];
 
-    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+  let count = 0;
+
+  function moveButton() {
+    // change the message
+    question.textContent = messages[Math.min(count, messages.length - 1)];
+    count++;
+
+    const rect = noBtn.getBoundingClientRect();
+    const margin = 16;
+
+    const vw = document.documentElement.clientWidth;
+    const vh = document.documentElement.clientHeight;
+
+    const maxX = vw - rect.width - margin;
+    const maxY = vh - rect.height - margin;
 
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
 
     noBtn.style.position = "fixed";
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
-  });
+    noBtn.style.left = `${Math.max(margin, x)}px`;
+    noBtn.style.top = `${Math.max(margin, y)}px`;
+  }
+
+  noBtn.addEventListener("mouseenter", moveButton);
+  noBtn.addEventListener("touchstart", moveButton);
 
   document.getElementById("yesBtn").addEventListener("click", () => {
+    question.textContent = "YAYYY 💖🥰";
     document.getElementById("fireworks").style.display = "block";
-    alert("Yay! 💕 They said YES!");
   });
 </script>
+
 
 
 </body>
